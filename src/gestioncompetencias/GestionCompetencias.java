@@ -22,7 +22,7 @@ public class GestionCompetencias {
         
         String usuario = "root";
         String password = "123456789";
-        String url = "jdbc:mysql://localhost:3306/bd_timecrafters";
+        String url = "jdbc:mysql://localhost:3308/bd_timecrafters";
         
         boolean continuar = true;
 
@@ -46,23 +46,24 @@ public class GestionCompetencias {
                             int tiempoCompetencia = Integer.parseInt(JOptionPane.showInputDialog("Ingrese el tiempo de la competencia (Horas): "));
                             LocalDate fechaInicioCompetencia = LocalDate.parse(JOptionPane.showInputDialog("Ingrese la fecha de incio (AAAA-MM-DD):"));
                             LocalDate fechaFinCompetencia = LocalDate.parse(JOptionPane.showInputDialog("Ingrese la fecha de fin (AAAA-MM-DD):"));
-
+                            int resultadoCompetencia = Integer.parseInt(JOptionPane.showInputDialog("Ingrese el resultado de la competencia por ID: "));
 
     
-                            st.executeUpdate("Insert into competencias values(null, '" + nombreCompetencia + "', " + tiempoCompetencia + ", '" + fechaInicioCompetencia + "', '" + fechaFinCompetencia + "')");
+                            st.executeUpdate("Insert into competencias values(null, '" + nombreCompetencia + "', " + tiempoCompetencia + ", '" + fechaInicioCompetencia + "', '" + fechaFinCompetencia + "', '" + resultadoCompetencia +"')");
                             JOptionPane.showMessageDialog(null, "Se registro satisfactoriamente la competencia");
     
                             break;
                         case 2:
-                            ResultSet resultadoConsulta = st.executeQuery("select * from competencias order by competencias ASC");
-                            System.out.println("\nID\tNombre competencia\tTiempo\tFecha inicio\tFecha fin");
+                            ResultSet resultadoConsulta = st.executeQuery("select * from competencias order by competencias_id ASC");
+                            System.out.println("\nID\tNombre competencia\tTiempo\tFecha inicio\tFecha fin\tResultado competencia");
     
                             while (resultadoConsulta.next()) {
                                 System.out.println(resultadoConsulta.getInt("competencias_id") +
-                                        "\t" + resultadoConsulta.getString("competencias_nombre ")
+                                        "\t" + resultadoConsulta.getString("competencias_nombre")
                                         + "\t" + resultadoConsulta.getInt("competencias_tiempo")
-                                        + "\t" + resultadoConsulta.getDate("competencias_fecha_inicio")
-                                        + "\t" + resultadoConsulta.getDate("competencias_fecha_fin"));
+                                        + "\t" + resultadoConsulta.getDate("competencias_fecha_inicio").toLocalDate()
+                                        + "\t" + resultadoConsulta.getDate("competencias_fecha_fin").toLocalDate()
+                                        + "\t" + resultadoConsulta.getInt("competencias_resultados_competencias_id"));
                             }
     
                             break;
